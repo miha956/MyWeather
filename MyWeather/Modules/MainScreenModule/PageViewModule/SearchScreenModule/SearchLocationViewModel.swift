@@ -21,8 +21,13 @@ final class SearchLocationViewModel: SearchLocationViewModelProtocol {
     
     // MARK: lifeCycle
     
-    init(weatherNetworkManager: WeatherNetworkManagerProtocol, coreDataManager: CoreDataManagerProtocol, places: [Place]) {
+    init(weatherNetworkManager: WeatherNetworkManagerProtocol, coreDataManager: CoreDataManagerProtocol) {
         self.weatherNetworkManager = weatherNetworkManager
         self.coreDataManager = coreDataManager
     }
+    
+    deinit {
+        print("SearchLocationViewModel deinit")
+    }
+    
 }

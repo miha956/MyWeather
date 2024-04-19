@@ -15,7 +15,7 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     
     private let hourLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 16)
         return label
@@ -23,20 +23,19 @@ final class HourlyCollectionViewCell: UICollectionViewCell {
     private let tempLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .black
+        label.textColor = .appWhite
         label.textAlignment = .center
         return label
     }()
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = .red
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     private let precipitationProbabilityLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9)
-        label.textColor = .black
+        label.textColor = .appWhite
         label.sizeToFit()
         return label
     }()

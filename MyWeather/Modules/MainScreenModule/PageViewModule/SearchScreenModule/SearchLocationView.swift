@@ -17,10 +17,11 @@ final class SearchLocationView: UIViewController {
     // MARK: SubViews
     
     private let headerTitle: UILabel = {
-        let cityLabel = UILabel()
-        cityLabel.text = "Погода"
-        cityLabel.textColor = .black
-        return cityLabel
+        let label = UILabel()
+        label.text = "Погода"
+        label.textColor = .appBlack
+        label.font = .systemFont(ofSize: 35)
+        return label
     }()
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -74,7 +75,7 @@ final class SearchLocationView: UIViewController {
     
     private func setupView() {
         
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = .appWhite
         
         addSubViews(headerTitle,searchBar,locationsTableView,errorLabel)
         

@@ -25,23 +25,25 @@ final class LocationsPageView: UIViewController {
     }()
     private lazy var addLocationButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("+", for: .normal)
-        button.backgroundColor = .white
+        button.setImage(UIImage(named: "location"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.tintColor = .appBlack
         button.addTarget(self, action: #selector(addLOcationButtonTapped), for: .touchUpInside)
         return button
     }()
     private lazy var cideMenuButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("=", for: .normal)
-        button.backgroundColor = .white
+        button.setImage(UIImage(named: "menu"), for: .normal)
+        button.tintColor = .appBlack
+        button.imageView?.contentMode = .scaleAspectFit
         button.addTarget(self, action: #selector(showSideMenu), for: .touchUpInside)
         return button
     }()
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.backgroundColor = .clear
-        pageControl.pageIndicatorTintColor = .lightGray
-        pageControl.currentPageIndicatorTintColor = .white
+        pageControl.pageIndicatorTintColor = .gray
+        pageControl.currentPageIndicatorTintColor = .appBlack
         pageControl.addTarget(self, action: #selector(pageControlTapped), for: .valueChanged)
         return pageControl
     }()
@@ -98,7 +100,7 @@ final class LocationsPageView: UIViewController {
     
     func setupView() {
         
-        view.backgroundColor = .systemBlue
+        view.backgroundColor = .appWhite
         addChild(pageViewController)
         addSubViews(pageControl, pageViewController.view,addLocationButton,cideMenuButton)
         
@@ -109,14 +111,14 @@ final class LocationsPageView: UIViewController {
             make.height.equalTo(40)
         }
         addLocationButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview()
+            make.trailing.equalToSuperview().inset(10)
             make.centerY.equalTo(pageControl)
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(30)
         }
         cideMenuButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
             make.centerY.equalTo(pageControl)
-            make.height.width.equalTo(40)
+            make.height.width.equalTo(30)
         }
         pageViewController.view.snp.makeConstraints { make in
             make.top.equalTo(pageControl.snp.bottom)
@@ -127,6 +129,7 @@ final class LocationsPageView: UIViewController {
     // MARK: Actions
     
     @objc private func addLOcationButtonTapped() {
+        viewModel.locationsListButtonTapped()
     }
     @objc private func showSideMenu() {
     }

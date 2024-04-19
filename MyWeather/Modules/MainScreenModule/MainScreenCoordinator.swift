@@ -35,10 +35,9 @@ class MainScreenCoordinator: Coordinator {
         navigationController.setViewControllers([viewController], animated: true)
     }
     
-    func showAddLocationView(places: [Place]) {
+    func showAddLocationView() {
         let viewModel = SearchLocationViewModel(weatherNetworkManager: networkManager, 
-                                                coreDataManager: coreDataManaager,
-                                                places: places)
+                                                coreDataManager: coreDataManaager)
         let viewController = SearchLocationView(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }

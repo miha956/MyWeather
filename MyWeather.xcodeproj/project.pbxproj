@@ -54,6 +54,7 @@
 		A9452B162BD2BE51001F4D40 /* MainScreenCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9452B092BD2BE51001F4D40 /* MainScreenCoordinator.swift */; };
 		A9452B182BD2C36F001F4D40 /* LocationWeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9452B172BD2C36F001F4D40 /* LocationWeatherView.swift */; };
 		A9452B1A2BD2D7B2001F4D40 /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9452B192BD2D7B2001F4D40 /* AlertController.swift */; };
+		A9452B1C2BD30886001F4D40 /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9452B1B2BD30886001F4D40 /* UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -104,6 +105,7 @@
 		A9452B092BD2BE51001F4D40 /* MainScreenCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenCoordinator.swift; sourceTree = "<group>"; };
 		A9452B172BD2C36F001F4D40 /* LocationWeatherView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationWeatherView.swift; sourceTree = "<group>"; };
 		A9452B192BD2D7B2001F4D40 /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		A9452B1B2BD30886001F4D40 /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 				A9452AA02BD2AD11001F4D40 /* UIViewController.swift */,
 				A9452AA12BD2AD11001F4D40 /* Double.swift */,
 				A9452AA22BD2AD11001F4D40 /* UICollectionViewCell.swift */,
+				A9452B1B2BD30886001F4D40 /* UIImage.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -198,7 +201,7 @@
 			children = (
 				A9452AEE2BD2B5B0001F4D40 /* Localization */,
 				A9452AAD2BD2AD31001F4D40 /* Storyboards */,
-				A9452AB02BD2AD31001F4D40 /* Images */,
+				A9452AB02BD2AD31001F4D40 /* Assets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -211,12 +214,12 @@
 			path = Storyboards;
 			sourceTree = "<group>";
 		};
-		A9452AB02BD2AD31001F4D40 /* Images */ = {
+		A9452AB02BD2AD31001F4D40 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
 				A9452AB12BD2AD31001F4D40 /* Assets.xcassets */,
 			);
-			path = Images;
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		A9452AB42BD2AD56001F4D40 /* NetworkManager */ = {
@@ -410,8 +413,8 @@
 			isa = PBXGroup;
 			children = (
 				A9452B022BD2BE51001F4D40 /* Views */,
-				A9452B002BD2BE51001F4D40 /* SearchLocationViewModel.swift */,
 				A9452B012BD2BE51001F4D40 /* SearchLocationView.swift */,
+				A9452B002BD2BE51001F4D40 /* SearchLocationViewModel.swift */,
 			);
 			path = SearchScreenModule;
 			sourceTree = "<group>";
@@ -556,6 +559,7 @@
 				A9452B182BD2C36F001F4D40 /* LocationWeatherView.swift in Sources */,
 				A9452A802BD2AC6D001F4D40 /* AppDelegate.swift in Sources */,
 				A9452B132BD2BE51001F4D40 /* LocationsPageView.swift in Sources */,
+				A9452B1C2BD30886001F4D40 /* UIImage.swift in Sources */,
 				A9452AD52BD2AD90001F4D40 /* PlaceModel.swift in Sources */,
 				A9452AAA2BD2AD11001F4D40 /* Double.swift in Sources */,
 				A9452B0B2BD2BE51001F4D40 /* HourlyWeatherCollectionViewCell.swift in Sources */,

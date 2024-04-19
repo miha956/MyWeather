@@ -16,6 +16,7 @@ class AppCoordinator: Coordinator {
     var navigationController: UINavigationController = {
         let navigationController = UINavigationController()
         // set appereance navigationController
+        navigationController.navigationBar.tintColor = .appBlack
         return navigationController
     }()
     
@@ -32,10 +33,10 @@ class AppCoordinator: Coordinator {
     func start() {
         userSettingsDataManager.loadSettings { result in
             switch result {
-            case .success(let setting):
+            case .success(_):
                 let coordinator = MainScreenCoordinator(navigationController: navigationController)
                 coordinator.start()
-            case .failure(let error):
+            case .failure(_):
                 let onboardingCoordinator = OnboardingCoordinator(navigationController: navigationController)
                 onboardingCoordinator.start()
             }

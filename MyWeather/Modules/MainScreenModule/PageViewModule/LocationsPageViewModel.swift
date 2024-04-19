@@ -14,7 +14,9 @@ protocol LocationsPageViewModelProtocol {
     var dataFetchState: ((DataLoadingState) -> Void)? {get set}
     var views: [UIViewController] {get}
     var numberOfPages: Int {get}
+    
     func fetchViews()
+    func locationsListButtonTapped()
 }
 
 final class LocationsPageViewModel: LocationsPageViewModelProtocol {
@@ -113,5 +115,9 @@ final class LocationsPageViewModel: LocationsPageViewModelProtocol {
                 self?.state = .error(error)
             }
         }
+    }
+    
+    func locationsListButtonTapped() {
+        coordinator?.showAddLocationView()
     }
 }

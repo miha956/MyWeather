@@ -16,7 +16,7 @@ final class CurrentWeatherView: UIView {
     private let locationNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 25)
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -27,7 +27,7 @@ final class CurrentWeatherView: UIView {
     let miniWearherPresenterLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 18)
         label.alpha = 0
         return label
@@ -35,25 +35,27 @@ final class CurrentWeatherView: UIView {
     private let temperatureLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center
-        label.textColor = .black
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 50, weight: .light)
         label.sizeToFit()
         return label
     }()
     private let weatherDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 18)
         return label
     }()
     private let tempMinLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 18)
         label.textAlignment = .center
         return label
     }()
     private let tempMaxLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .appBlack
         label.font = .systemFont(ofSize: 18)
         label.textAlignment = .center
         return label

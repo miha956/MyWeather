@@ -15,43 +15,43 @@ final class LocationTableViewCell: UITableViewCell {
     
     private let locationNameLabel:  UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
     private let timeLabel:  UILabel = {
         let timeLabel = UILabel()
-        timeLabel.textColor = .black
+        timeLabel.textColor = .appWhite
         return timeLabel
     }()
     private let weatherDescriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     private let tempLabel:  UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .systemFont(ofSize: 35)
         return label
     }()
     private let tempMinLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     private let tempMaxLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .systemFont(ofSize: 15)
         return label
     }()
     private let imagePlusView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "plus.square.dashed")
-        imageView.tintColor = .black
+        imageView.tintColor = .appWhite
         return imageView
     }()
     
@@ -73,6 +73,8 @@ final class LocationTableViewCell: UITableViewCell {
         self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         self.layer.cornerRadius = 15
         self.clipsToBounds = true
+        
+        backgroundColor = .appBlack
         
         contentView.addSubViews(locationNameLabel,timeLabel,weatherDescriptionLabel,tempLabel,tempMinLabel,tempMaxLabel)
         

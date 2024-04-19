@@ -29,6 +29,7 @@ final class LocationOnboardingView: UIViewController {
         view.font = .systemFont(ofSize: 16, weight: .bold)
         view.textAlignment = .center
         view.lineBreakMode = .byWordWrapping
+        view.textColor = .appBlack
         return view
     }()
     private let descriptionLabel: UILabel = {
@@ -37,12 +38,13 @@ final class LocationOnboardingView: UIViewController {
         view.font = .systemFont(ofSize: 14, weight: .light)
         view.textAlignment = .center
         view.lineBreakMode = .byWordWrapping
+        view.textColor = .appBlack
         return view
     }()
     private lazy var confirmUsingLocationButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .systemGray
-        button.tintColor = .white
+        button.backgroundColor = .appBlack
+        button.tintColor = .appWhite
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(requestLocationPermissionButtonTapped), for: .touchUpInside)
@@ -50,7 +52,7 @@ final class LocationOnboardingView: UIViewController {
     }()
     private lazy var skipLocationButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = .systemBlue
+        button.tintColor = .appBlack
         button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -91,7 +93,7 @@ final class LocationOnboardingView: UIViewController {
     
     private func setupView() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = .appWhite
         
         imageView.image = UIImage(named: viewModel.viewData.viewImageName)
         warningTitleLabel.text = viewModel.viewData.title

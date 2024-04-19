@@ -15,7 +15,7 @@ final class DailyWeatherTableViewCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
-        label.textColor = .black
+        label.textColor = .appWhite
         return label
     }()
     private let weatherImageView: UIImageView = {
@@ -26,7 +26,7 @@ final class DailyWeatherTableViewCell: UITableViewCell {
     private let precipitationProbabilityLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 9)
-        label.textColor = .black
+        label.textColor = .appWhite
         return label
     }()
     private let imagePrecipitationProbabilityStackView: UIStackView = {
@@ -41,12 +41,14 @@ final class DailyWeatherTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
         label.textAlignment = .center
+        label.textColor = .appWhite
         return label
     }()
     private let maxTempLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17)
         label.textAlignment = .center
+        label.textColor = .appWhite
         return label
     }()
     private let tempStackview: UIStackView = {

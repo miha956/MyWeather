@@ -227,47 +227,27 @@ extension LocationWeatherView: UITableViewDelegate, UITableViewDataSource {
         //viewModel
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        let cornerRadius : CGFloat = 20.0
-        cell.backgroundColor = UIColor.clear
-        let layer: CAShapeLayer = CAShapeLayer()
-        let pathRef:CGMutablePath = CGMutablePath()
-        let bounds: CGRect = cell.bounds.insetBy(dx:0,dy:0)
-        var addLine: Bool = false
-        
-        if (indexPath.row == 0 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
-            pathRef.addRoundedRect(in: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
-        } else if (indexPath.row == 0) {
-            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.maxY))
-            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.minY), tangent2End: CGPoint(x: bounds.midX, y: bounds.midY), radius: cornerRadius)
-            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.minY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
-            pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.maxY) )
-            addLine = true
-        } else if (indexPath.row == tableView.numberOfRows(inSection: indexPath.section)-1) {
-            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY), transform: CGAffineTransform())
-            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY), radius: cornerRadius)
-            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY), tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY), radius: cornerRadius)
-            pathRef.addLine(to:CGPoint(x: bounds.maxX, y: bounds.minY) )
-            
-        } else {
-            pathRef.addRect(bounds)
-            addLine = true
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath)
+    {
+        let cornerRadius = 20
+        cell.backgroundColor = .appBlack
+        var corners: UIRectCorner = []
+        if indexPath.row == 0
+        {
+            corners.update(with: .topLeft)
+            corners.update(with: .topRight)
         }
-        layer.path = pathRef
-        layer.fillColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 0.8).cgColor
-        
-        if (addLine == true) {
-            let lineLayer: CALayer = CALayer()
-            let lineHeight: CGFloat = (1.0 / UIScreen.main.scale)
-            lineLayer.frame = CGRect(x:bounds.minX + 10 , y:bounds.size.height-lineHeight, width:bounds.size.width-10, height:lineHeight)
-            lineLayer.backgroundColor = tableView.separatorColor?.cgColor
-            layer.addSublayer(lineLayer)
+        if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1
+        {
+            corners.update(with: .bottomLeft)
+            corners.update(with: .bottomRight)
         }
-        let view: UIView = UIView(frame: bounds)
-        view.layer.insertSublayer(layer, at: 0)
-        view.backgroundColor = UIColor.clear
-        cell.backgroundView = view
+
+        let maskLayer = CAShapeLayer()
+        maskLayer.path = UIBezierPath(roundedRect: cell.bounds,
+                                      byRoundingCorners: corners,
+                                      cornerRadii: CGSize(width: cornerRadius, height: cornerRadius)).cgPath
+        cell.layer.mask = maskLayer
     }
 }
 

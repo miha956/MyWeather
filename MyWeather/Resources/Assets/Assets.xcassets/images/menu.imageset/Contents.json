@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "free-icon-sun-1163662.png",
+      "filename" : "free-icon-menu-15610338-2 2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "free-icon-menu-15610338-2 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "free-icon-menu-15610338-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

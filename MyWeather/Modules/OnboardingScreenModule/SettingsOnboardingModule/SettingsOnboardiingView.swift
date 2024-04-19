@@ -17,14 +17,14 @@ class SettingsOnboardiingView: UIViewController {
     // MARK: Subviews
     private let contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 10
+        view.backgroundColor = .appBlack
+        view.layer.cornerRadius = 20
         view.clipsToBounds = true
         return view
     }()
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .black
+        label.textColor = .appWhite
         label.font = .systemFont(ofSize: 18, weight: .bold)
         return label
     }()
@@ -36,8 +36,8 @@ class SettingsOnboardiingView: UIViewController {
     }()
     private lazy var applySettingsButton: UIButton = {
         let button = UIButton(type: .system)
-        button.backgroundColor = .white
-        button.tintColor = .black
+        button.backgroundColor = .appWhite
+        button.tintColor = .appBlack
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(saveSettingsButtonTapped), for: .touchUpInside)
@@ -77,7 +77,7 @@ class SettingsOnboardiingView: UIViewController {
     
     private func setupView() {
         viewModel.loadSettints()
-        view.backgroundColor = .white
+        view.backgroundColor = .appWhite
         
         applySettingsButton.setTitle(viewModel.buttonTitle, for: .normal)
         titleLabel.text = viewModel.viewTitle
@@ -120,14 +120,16 @@ class SettingsOnboardiingView: UIViewController {
             stackView.spacing = 5
             
             let titleLabel = UILabel()
+            titleLabel.textColor = .appWhite
             titleLabel.text = title.rawValue
             titleLabel.font = .systemFont(ofSize: 16)
             stackView.addArrangedSubview(titleLabel)
             
             let segmentedControl = UISegmentedControl()
-            segmentedControl.tintColor = .black
+            segmentedControl.backgroundColor = .appWhite
+            segmentedControl.tintColor = .appBlack
             segmentedControl.setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
-            segmentedControl.selectedSegmentTintColor = .systemBlue
+            segmentedControl.selectedSegmentTintColor = .appBlack
             segmentedControl.addTarget(self, action: #selector(segmentValueChanged), for: .valueChanged)
             
             let options = viewModel.viewContent.optionsTitles[index]
