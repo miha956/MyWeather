@@ -1,3 +1,10 @@
+Поддержка темы
+
+<img src= https://github.com/miha956/MyWeather/assets/91982580/08c5b743-c907-40a1-8bd6-4ba9b5eaf261 width="150" height="350">
+<img src= https://github.com/miha956/MyWeather/assets/91982580/4f92633e-23dd-4c50-950b-68d6439cd77f width="150" height="350">
+
+
+
 Первый экран
 
 <img src= https://github.com/miha956/MyWeather/assets/91982580/0f5415d6-6c1f-4365-913e-871e3b8d81d6 width="150" height="350">
