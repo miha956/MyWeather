@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>NSLocalizedString(&quot;location_onboarding_title&quot;, comment: &quot;&quot;)</string>
+	<string>Геолокация необходима для отобращения погоды в текущем местоположении</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

@@ -84,7 +84,6 @@ final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
                 case .success(let fetchedPlaces):
                     if !fetchedPlaces.isEmpty {
                         for place in fetchedPlaces {
-                            print(1)
                             let viewModel = LocationWeatherViewModel(weatherNetworkManager: self.networkManager,
                                                                      coreDataManager: self.coreDataManager,
                                                                      currentPlace: place,
@@ -152,6 +151,7 @@ extension LocationsPageViewModel: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         guard let location = locations.last else { return }
+        self.locationManager.stopUpdatingLocation()
         
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
@@ -166,10 +166,7 @@ extension LocationsPageViewModel: CLLocationManagerDelegate {
                                                      userSettings: self.userSettings!,
                                                      viewState: .currentLocation)
             let viewController = LocationWeatherView(viewModel: viewModel)
-            self.locationManager.stopUpdatingLocation()
-            if  self.views.isEmpty {
-                self.views.append(viewController)
-            }
+            self.views.append(viewController)
             self.locationUpdateCompletion?()
         }
     }

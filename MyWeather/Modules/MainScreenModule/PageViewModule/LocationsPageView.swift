@@ -70,9 +70,7 @@ final class LocationsPageView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
         viewModel.fetchViews()
-        pageControl.currentPage = views.count
-        pageViewController.setViewControllers([views.last!], direction: .reverse, animated: true)
-        
+        pageControl.currentPage = 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
