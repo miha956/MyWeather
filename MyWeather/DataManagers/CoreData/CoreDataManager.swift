@@ -7,26 +7,43 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 protocol CoreDataManagerProtocol {
+    
+    var fetchResultController: NSFetchedResultsController<Place> {get}
     
     func updateWeatherData(locationName: String, weather: WeatherModel)
     func fetchPlaces(complition: (Result<[Place], Error>) -> Void)
     func saveLocation(location: PlaceModel, complition: @escaping(Result<Place, Error>) -> Void)
+    func subscribeFetchResultController(delegate: NSFetchedResultsControllerDelegate)
+    func delelePlaceFromFvorite(location: Place, complition: @escaping(Result<String, Error>) -> Void)
 }
 
 final class CoreDataManager: CoreDataManagerProtocol {
     
-    
-    let persistentContainer: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Weather")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true
+
         return container
     }()
+    lazy var fetchResultController: NSFetchedResultsController<Place> = {
+        
+        let request = Place.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
+        let fetchResultController = NSFetchedResultsController(fetchRequest: request,
+                                                               managedObjectContext: persistentContainer.viewContext,
+                                                               sectionNameKeyPath: nil,
+                                                               cacheName: nil)
+        return fetchResultController
+    }()
+    
     
     func saveLocation(location: PlaceModel, complition: @escaping(Result<Place, Error>) -> Void) {
         
@@ -74,7 +91,7 @@ final class CoreDataManager: CoreDataManagerProtocol {
         }
     }
     
-    func delelePostFromFvorite(location: Place) {
+    func delelePlaceFromFvorite(location: Place, complition: @escaping(Result<String, Error>) -> Void) {
         
         persistentContainer.performBackgroundTask { backgroundContext in
             let placeForDelete = backgroundContext.object(with: location.objectID)
@@ -82,8 +99,9 @@ final class CoreDataManager: CoreDataManagerProtocol {
             
             do {
                 try backgroundContext.save()
-            } catch {
-                print(error.localizedDescription)
+                complition(.success("success"))
+            } catch let error {
+                complition(.failure(error))
             }
         }
     }
@@ -110,6 +128,14 @@ final class CoreDataManager: CoreDataManagerProtocol {
             complition(.success(places))
         } catch {
             complition(.failure(CoreDataManagerError.fetchRequestError))
+        }
+    }
+    func subscribeFetchResultController(delegate: NSFetchedResultsControllerDelegate) {
+        fetchResultController.delegate = delegate
+        do {
+            try fetchResultController.performFetch()
+        } catch {
+            print(error)
         }
     }
 }

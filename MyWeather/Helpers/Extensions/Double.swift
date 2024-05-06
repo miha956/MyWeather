@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Double {
+extension Double {
     var toInt: Int {
         return Int(self)
     }

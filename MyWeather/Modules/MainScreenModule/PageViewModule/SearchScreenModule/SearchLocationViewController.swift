@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class SearchLocationView: UIViewController {
+final class SearchLocationViewController: UIViewController {
     
     // MARK: Properties
     
@@ -73,14 +73,10 @@ final class SearchLocationView: UIViewController {
     
     // MARK: Private
     
-    @objc func handleLocationAdded() {
-        viewModel.goToRoot()
-    }
-    
+
     // MARK: Private
     
     private func setupView() {
-        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationAdded), name: Notification.Name("LocationAdded"), object: nil)
         view.backgroundColor = .appWhite
         
         addSubViews(headerTitle,searchBar,locationsTableView,errorLabel)
@@ -109,7 +105,7 @@ final class SearchLocationView: UIViewController {
 
     // MARK: TableView delegate&dataSourse
 
-extension SearchLocationView: UITableViewDelegate, UITableViewDataSource {
+extension SearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
@@ -159,7 +155,7 @@ extension SearchLocationView: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: SearchBar delegate
 
-extension SearchLocationView: UISearchBarDelegate {
+extension SearchLocationViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.setShowsCancelButton(true, animated: true)

@@ -14,7 +14,8 @@ class MainScreenCoordinator: Coordinator {
     var childCoordinators: [Coordinator] = []
     var navigationController: UINavigationController
     let networkManager = WeatherNetworkManager()
-    let coreDataManaager = CoreDataManager()
+    let coreDataManager = CoreDataManager()
+    let userSettingsDataManager = UserSettingsDataManager()
     
     
     init(navigationController: UINavigationController) {
@@ -26,21 +27,20 @@ class MainScreenCoordinator: Coordinator {
     }
     
     func start() {
-        let userSettingsDataManager = UserSettingsDataManager()
-        let viewModel = LocationsPageViewModel(coreDataManager: coreDataManaager,
-                                               networkManager: networkManager,
-                                               userSettingsDataManager: userSettingsDataManager)
-        viewModel.coordinator = self
-        let viewController = LocationsPageView(viewModel: viewModel)
-        navigationController.setViewControllers([viewController], animated: true)
+        let mainContainer = MainViewContainer(coreDataManager: coreDataManager,
+                                              networkManager: networkManager,
+                                              userSettingsDataManager: userSettingsDataManager)
+        mainContainer.coordinator = self
+        let viewController = mainContainer.getSideMenuController()
+        navigationController.setViewControllers([viewController!], animated: true)
     }
     
     func showAddLocationView(userSettings: UserAppSettings) {
         let viewModel = SearchLocationViewModel(weatherNetworkManager: networkManager, 
-                                                coreDataManager: coreDataManaager, 
+                                                coreDataManager: coreDataManager,
                                                 userSettings: userSettings)
         viewModel.coordinator = self
-        let viewController = SearchLocationView(viewModel: viewModel)
+        let viewController = SearchLocationViewController(viewModel: viewModel)
         navigationController.pushViewController(viewController, animated: true)
     }
 }

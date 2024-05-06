@@ -121,6 +121,7 @@ final class LocationWeatherViewModel: NSObject, LocationWeatherViewModelProtocol
                 self.weatherData = weatherData
             case .failure(let error):
                 state = .error(error)
+                dispatchGroup.leave()
                 return
             }
             dispatchGroup.leave()
@@ -150,10 +151,9 @@ final class LocationWeatherViewModel: NSObject, LocationWeatherViewModelProtocol
     func getHourlyWeatherInfo(for indexPath: IndexPath) -> (hour: String, weatherImage: UIImage, temperature: String, precipitationProbability: String?) {
         
         let index = indexPath.row + locationTime
-        //let weatherImage = UIImage(named: "weatherCode-\(currentWeather.hourly.weatherCode[indexPath.row])")
+        let weatherImage = UIImage(named: "weatherCode-\(weatherData.hourly.weatherCode[indexPath.row])")!
         let hour = weatherData.hourly.time[index].getHourFromDate
         let temp = "\(weatherData.hourly.temperature[index].toInt)\(userSettings.temperature.unicode)"
-        let weatherImage = UIImage(named: "weatherCode-0")!
         var precipitationProbability: String? {
             guard let probability = weatherData.hourly.precipitationProbability[index] else {
                 return nil
@@ -166,8 +166,7 @@ final class LocationWeatherViewModel: NSObject, LocationWeatherViewModelProtocol
     func getDailyWeatherInfo(for indexPath: IndexPath) -> (date: String, weatherImage: UIImage, precipitationProbability: String?, minTemp: String, maxTemp: String) {
         
         let date = weatherData.daily.time[indexPath.row].getWeekdayFromDate
-        //let weatherImage = UIImage(named: "weatherCode-\(dailyWeather.daily.weatherCode[indexPath.row])")!
-        let weatherImage = UIImage(named: "weatherCode-0")!
+        let weatherImage = UIImage(named: "weatherCode-\(weatherData.daily.weatherCode[indexPath.row])")!
         var precipitationProbability: String? {
             guard let probability = weatherData.daily.precipitationProbabilityMax[indexPath.row] else {
                 return nil

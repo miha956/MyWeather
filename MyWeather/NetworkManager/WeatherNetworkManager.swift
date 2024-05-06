@@ -106,7 +106,6 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
     }
     
     //    let windSpeedUnit: WindSpeed
-    //    let timeZone = ""
     //    let nubmerOfdays = ""
         // language
         
@@ -118,7 +117,6 @@ final class WeatherNetworkManager: WeatherNetworkManagerProtocol {
     
     func fetchLocationGeocoding(name: String, complition: @escaping(Result<GeocodingModel, Error>) -> Void) {
         let url = "\(Endpoint.deocoding.url)&geocode=\(name)"
-        print(url)
         fetchData(url: url, complition: complition)
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LocationWeatherView: UIViewController {
+class LocationWeatherViewController: UIViewController {
     
     // MARK: Properties
     
@@ -97,13 +97,11 @@ class LocationWeatherView: UIViewController {
             case .initial:
                 print("initial")
             case .loading:
-                print("loading")
                 activityIndicator.isHidden = false
                 weatherTableView.isHidden = true
                 currentWeatherView.isHidden = true
                 activityIndicator.startAnimating()
             case .success:
-                print("success")
                 activityIndicator.isHidden = true
                 activityIndicator.stopAnimating()
                 weatherTableView.reloadData()
@@ -156,7 +154,7 @@ class LocationWeatherView: UIViewController {
 
     // MARK: TableView delegate&dataSourse
 
-extension LocationWeatherView: UITableViewDelegate, UITableViewDataSource {
+extension LocationWeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
@@ -227,7 +225,7 @@ extension LocationWeatherView: UITableViewDelegate, UITableViewDataSource {
 
     // MARK: ScrollView
 
-extension LocationWeatherView {
+extension LocationWeatherViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -254,7 +252,7 @@ extension LocationWeatherView {
 
     // MARK: CollectionView delegate&dataSourse
 
-extension LocationWeatherView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension LocationWeatherViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1

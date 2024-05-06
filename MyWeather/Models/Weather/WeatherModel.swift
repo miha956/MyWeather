@@ -81,7 +81,8 @@ struct CurrentUnits: Codable {
 // MARK: - Daily
 struct Daily: Codable {
     let time: [String]
-    let weatherCode, temperatureMax: [Double]
+    let weatherCode: [Int]
+    let temperatureMax: [Double]
     let temperatureMin: [Double]
     let sunrise, sunset: [String]
     let daylightDuration, sunshineDuration, precipitationSum: [Double]

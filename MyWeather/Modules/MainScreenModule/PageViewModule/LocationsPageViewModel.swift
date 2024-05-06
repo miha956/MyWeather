@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreData
 
 protocol LocationsPageViewModelProtocol {
     
@@ -18,6 +19,7 @@ protocol LocationsPageViewModelProtocol {
     func fetchViews()
     func locationsListButtonTapped()
     func requestUseGeolocation(alertPresenter: UIViewController)
+    func goToRoot()
 }
 
 final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
@@ -26,11 +28,10 @@ final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
     
     private var coreDataManager: CoreDataManagerProtocol
     private var networkManager: WeatherNetworkManagerProtocol
-    private var userSettings: UserAppSettings?
+    private var userSettings: UserAppSettings
     private let locationManager = CLLocationManager()
-    private let userSettingsDataManager: UserSettingsDataManager
-    private var locationUpdateCompletion: (() -> Void)?
     var coordinator: MainScreenCoordinator?
+    var currentAuthorizationStatus: CLAuthorizationStatus? = nil
     
     var dataFetchState: ((DataLoadingState) -> Void)?
     private var state: DataLoadingState = .initial {
@@ -45,10 +46,10 @@ final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
     
     // MARK: lifeCycle
     
-    init(coreDataManager: CoreDataManagerProtocol, networkManager: WeatherNetworkManagerProtocol, userSettingsDataManager: UserSettingsDataManager) {
+    init(coreDataManager: CoreDataManagerProtocol, networkManager: WeatherNetworkManagerProtocol, userSettings: UserAppSettings) {
         self.coreDataManager = coreDataManager
         self.networkManager = networkManager
-        self.userSettingsDataManager = userSettingsDataManager
+        self.userSettings = userSettings
     }
     
     deinit {
@@ -62,23 +63,28 @@ final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
         switch locationManager.authorizationStatus {
         case .restricted, .denied, .notDetermined:
             let view = LocationAccessView(viewModel: self)
-            views.append(view)
-            locationUpdateCompletion?()
+            views.insert(view, at: 0)
+            dispatchGroup.leave()
         case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
+            locationManager.requestLocation()
         default:
             print("look hire")
         }
     }
     
     // MARK: Public Methods
-    
-    private func fetchLocations() {
+    let dispatchGroup = DispatchGroup()
+    func fetchViews() {
+        
+        dispatchGroup.enter()
+        
+        views = []
+        locationManager.delegate = self
         self.state = .loading
         
         configCurrentLocationView()
         
-        locationUpdateCompletion = {
+        dispatchGroup.enter()
             self.coreDataManager.fetchPlaces { result in
                 switch result {
                 case .success(let fetchedPlaces):
@@ -87,40 +93,39 @@ final class LocationsPageViewModel: NSObject, LocationsPageViewModelProtocol {
                             let viewModel = LocationWeatherViewModel(weatherNetworkManager: self.networkManager,
                                                                      coreDataManager: self.coreDataManager,
                                                                      currentPlace: place,
-                                                                     userSettings: self.userSettings!)
-                            let viewController = LocationWeatherView(viewModel: viewModel)
+                                                                     userSettings: self.userSettings)
+                            let viewController = LocationWeatherViewController(viewModel: viewModel)
                             self.views.append(viewController)
                         }
                     }
-                    self.state = .success
                 case .failure(let error):
                     self.state = .error(error)
+                    dispatchGroup.leave()
                 }
+                dispatchGroup.leave()
             }
+        
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            guard let self = self else {return}
+            self.state = .success
+            print(views)
         }
+    }
+    
+    func goToRoot() {
+        fetchViews()
+        coordinator?.navigationController.popToRootViewController(animated: true)
     }
     
     // MARK: Public Methods
     
-    func fetchViews() {
-        views = []
-        locationManager.delegate = self
-        userSettingsDataManager.loadSettings { [weak self] result in
-            switch result {
-            case .success(let settings):
-                self?.userSettings = settings
-                self?.fetchLocations()
-            case .failure(let error):
-                self?.state = .error(error)
-            }
-        }
-    }
-    
     func locationsListButtonTapped() {
-        coordinator?.showAddLocationView(userSettings: userSettings!)
+        coordinator?.showAddLocationView(userSettings: userSettings)
     }
     
-    func requestUseGeolocation(alertPresenter: UIViewController) {
+    func requestUseGeolocation(alertPresenter: UIViewController) {    
+        
+        self.currentAuthorizationStatus = locationManager.authorizationStatus
         
         switch locationManager.authorizationStatus {
         case .denied, .restricted:
@@ -149,10 +154,7 @@ extension LocationsPageViewModel: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
         guard let location = locations.last else { return }
-        self.locationManager.stopUpdatingLocation()
-        
         let latitude = location.coordinate.latitude
         let longitude = location.coordinate.longitude
         
@@ -163,21 +165,39 @@ extension LocationsPageViewModel: CLLocationManagerDelegate {
             let viewModel = LocationWeatherViewModel(weatherNetworkManager: self.networkManager,
                                                      coreDataManager: self.coreDataManager,
                                                      newplace: newPlace,
-                                                     userSettings: self.userSettings!,
+                                                     userSettings: self.userSettings,
                                                      viewState: .currentLocation)
-            let viewController = LocationWeatherView(viewModel: viewModel)
-            self.views.append(viewController)
-            self.locationUpdateCompletion?()
+            let viewController = LocationWeatherViewController(viewModel: viewModel)
+            self.views.insert(viewController, at: 0)
+            dispatchGroup.leave()
         }
     }
     
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+            // Обработка ошибки запроса местоположения
+            locationManager.requestLocation()
+        }
+    
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-           switch status {
-           case .authorizedWhenInUse, .authorizedAlways:
-               fetchViews()
-           default:
-               print("Непредвиденное значение статуса авторизации")
-           }
+        
+        if currentAuthorizationStatus != nil {
+            switch status {
+            case .authorizedWhenInUse, .authorizedAlways, .notDetermined:
+                fetchViews()
+            default:
+                print("Непредвиденное значение статуса авторизации")
+            }
+        }
+    }
+}
+
+protocol LocationsPageViewModelDelegate: AnyObject {
+    func locationDelete()
+}
+
+extension LocationsPageViewModel: LocationsPageViewModelDelegate {
+    func locationDelete() {
+        fetchViews()
     }
 }
 

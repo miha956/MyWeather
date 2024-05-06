@@ -8,12 +8,15 @@
 import Foundation
 import UIKit
 import SnapKit
+import SideMenu
+import CoreData
 
-final class LocationsPageView: UIViewController {
+final class LocationsPageViewController: UIViewController {
     
     // MARK: Properties
     
     private var viewModel: LocationsPageViewModelProtocol
+    private var isNewPlaceAdded: Bool = false
     private var views: [UIViewController] {
         return viewModel.views
     }
@@ -55,7 +58,6 @@ final class LocationsPageView: UIViewController {
         setupView()
         bindViewModel()
         viewModel.fetchViews()
-        
     }
     
     init(viewModel: LocationsPageViewModelProtocol) {
@@ -69,8 +71,6 @@ final class LocationsPageView: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
-        viewModel.fetchViews()
-        pageControl.currentPage = 0
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,12 +89,8 @@ final class LocationsPageView: UIViewController {
                 print("loading")
             case .success:
                 print("success")
-                pageControl.numberOfPages = viewModel.numberOfPages
-                guard let firstViewController = views.first else { return } // add alert
-                pageViewController.setViewControllers([firstViewController],
-                                            direction: .forward,
-                                            animated: true,
-                                            completion: nil)
+                setupPageView(newPlaceAdded: isNewPlaceAdded)
+                isNewPlaceAdded = false
             case .error(let error):
                 showAlert(title: "error", message: error?.localizedDescription, target: self, handler: nil)
             }
@@ -102,9 +98,31 @@ final class LocationsPageView: UIViewController {
         }
     }
     
+    func setupPageView(newPlaceAdded: Bool) {
+        
+        pageControl.numberOfPages = viewModel.numberOfPages
+        
+        
+        if !newPlaceAdded {
+            pageControl.currentPage = 0
+            guard let firstViewController = views.first else { return }
+            pageViewController.setViewControllers([firstViewController],
+                                                  direction: .forward,
+                                                  animated: true,
+                                                  completion: nil)
+        } else {
+            pageControl.currentPage = views.count
+            guard let firstViewController = views.last else { return }
+            pageViewController.setViewControllers([firstViewController],
+                                                  direction: .reverse,
+                                                  animated: true,
+                                                  completion: nil)
+        }
+    }
     
     func setupView() {
         
+        NotificationCenter.default.addObserver(self, selector: #selector(handleLocationAdded), name: Notification.Name("LocationAdded"), object: nil)
         view.backgroundColor = .appWhite
         addChild(pageViewController)
         addSubViews(pageControl, pageViewController.view,addLocationButton,cideMenuButton)
@@ -137,16 +155,22 @@ final class LocationsPageView: UIViewController {
         viewModel.locationsListButtonTapped()
     }
     @objc private func showSideMenu() {
+        self.sideMenuController?.revealMenu()
     }
     @objc func pageControlTapped(_ sender: UIPageControl) {
         let currentPage = sender.currentPage
         pageViewController.setViewControllers([viewModel.views[currentPage]], direction: .forward, animated: true)
     }
+    
+    @objc func handleLocationAdded() {
+        isNewPlaceAdded = true
+        viewModel.goToRoot()
+    }
 }
 
     // MARK: PageView Delegate&DataSource
 
-extension LocationsPageView: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+extension LocationsPageViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         if let index = views.firstIndex(of: viewController) {
@@ -182,3 +206,4 @@ extension LocationsPageView: UIPageViewControllerDelegate, UIPageViewControllerD
         pageControl.currentPage = index
     }
 }
+

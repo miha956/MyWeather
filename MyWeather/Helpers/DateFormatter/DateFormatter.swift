@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-public extension String {
+extension String {
     
     var getHourFromDate: String {
         var result = String()

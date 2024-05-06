@@ -56,7 +56,7 @@ final class SearchLocationViewModel: SearchLocationViewModelProtocol {
     }
     
     func confinCell(for indexPath: IndexPath) -> (title: String? ,description: String?) {
-        print(indexPath.row)
+        
         let title = searchResults?.response.geoObjectCollection.featureMember[indexPath.row].geoObject.name
         let description = searchResults?.response.geoObjectCollection.featureMember[indexPath.row].geoObject.description
         return (title: title, description: description)
@@ -77,7 +77,7 @@ final class SearchLocationViewModel: SearchLocationViewModelProtocol {
                                                  newplace: plece,
                                                  userSettings: userSettings, 
                                                  viewState: .addLocation)
-        let viewController = LocationWeatherView(viewModel: viewModel)
+        let viewController = LocationWeatherViewController(viewModel: viewModel)
         viewController.view.backgroundColor = .appWhite
         DispatchQueue.main.async {
             presenter.present(viewController, animated: true)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-public extension UITableViewCell {
+extension UITableViewCell {
     
     static var defaultIdentifier: String {
         return String(describing: self)
